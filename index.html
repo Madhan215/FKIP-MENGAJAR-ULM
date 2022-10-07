@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FKIP Mengajar ULM</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body{
+        background-color: purple;
+        align-items: center;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      }
+      *{
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+      h1{
+        color: aliceblue;
+        background-color: purple;
+        box-shadow: 1px 1px 10px black;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      h2{
+        color: white;
+      }
+      a { 
+        color: blue;
+        text-decoration: none;
+      }
+      a:active{
+        color: skyblue;
+      }
+      img{
+        box-shadow: 1px 1px 10px black;
+        padding: 10px;
+        border-radius: 50%;
+        margin: auto;
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        box-shadow: 0px 0px 5px black;
+        margin: 20px 20px;
+      }
+      table, th, td{
+        background-color: rgb(184, 119, 245);
+        padding: 5px;
+        border: 2px solid rgb(58, 2, 58);
+      }
+      #nav{
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        width: 50%
+      }
+      button{
+        margin: 5px;
+        font-size: 15px;
+        background-color: rgb(184, 119, 245);
+        border: none;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px black;
+      }
+      button:active{
+        transform: scale(0.95);
+        box-shadow: none;
+      }
+      input.checkbox{
+        width: 25px;
+        height: 25px;
+      }
+      #box{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        margin-top: 100px;
+        border-radius: 5px;
+        position: fixed;
+        width: 40%;
+        background-color: aliceblue;
+        box-shadow: 0px 0px 10px black;
+      }
+      .perintah{
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+      }
+      #area{
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        background-color: rgb(0, 0, 0, 0.4);
+        height: 100%;
+        width: 100%;
+      }
+      @media only screen and (max-width: 540px) {
+        #box{
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <img src="assets/LogoFM.png" height="100px" alt="">
+    <h1>FKIP Mengajar on Web</h1>
+    <hr color="white" width="100%">
+    <h2>List Data Paid Promote</h2>
+    <h2 style="display: none; text-decoration: underline; margin-top: 2px;" id="notif">Halo kak <span id="kaka"></span></h2>
+    <p style="display: none;" id="key"></p>
+    <div id="nav">
+      <button id="loginboxpopup">Login</button>
+      <button id="btnTambah" style="display: none;">Tambah Data</button>
+      <button id="edit" style="display: none;">Edit Data</button>
+      <!-- 
+      <button id="lihat">Lihat Post</button> -->
+    </div>
+
+
+    <div id="admin" style="display: none;">
+      <table>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Tanggal</th>
+          <th>Aksi</th>
+        </tr>
+        <tbody id="dataAdmin"></tbody>
+      </table>
+    </div>
+
+    <div id="user" style="display: flex; flex-direction: column; align-items: center;">
+      <div id="pilih">
+        <table>
+          <tr>
+            <th>No</th>
+            <th>Post</th>
+            <th>Aksi</th>
+          </tr>
+          <tbody id="dataUserPilih"></tbody>
+        </table>
+      </div>
+      <div id="list" style="display: none;">
+        <table>
+          <tr>
+            <th id="judulpost" colspan="5"></th>
+          </tr>
+          <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>IG</th>
+            <th>Follower</th>
+            <th>Status</th>
+          </tr>
+          <tbody id="tbody"></tbody>
+          <tr>
+            <td colspan="4">Total Checklist</td>
+            <td id="totalcheck"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <br>
+    <hr color="white" width="100%">
+    <br>
+    <table style="width: 250px;">
+        <tbody id="isi">
+          <tr>
+            <th>Statistik</th>
+            <th>Jumlah</th>
+          </tr>
+          <tr>
+            <td>Akun Aktif</td>
+            <td id="jumlahakun"></td>
+          </tr>
+          <tr>
+            <td>Follower</td>
+            <td id="jumlahfollower"></td>
+          </tr>
+        </tbody>
+      </table>
+    </table>
+
+    <!-- Modal Login -->
+    <div id="area">
+      <div id="box">
+        <div id="tambahData" style="display: none;">
+          <h3>Tambah Data</h3>
+          <table style="width: 90%;">
+            <tr>
+              <td>Nama post</td>
+              <td><input type="text" id="post" placeholder="Nama postingan"></td>
+            </tr>
+            <tr>
+              <td>Nomor post</td>
+              <td><input type="text" id="nopost"></td>
+            </tr>
+            <tr>
+              <td>Tanggal</td>
+              <td><input style="width:95%;"type="date" id="datepost"></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button id="upload">Upload</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="logindata" style="display: block;">
+          <h3>Login</h3>
+          <p id="notifsalah">~</p>
+          <table style="width: 90%;">
+            <tr>
+              <td>Username</td>
+              <td><input type="text" id="usernames"></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td><input type="text" id="passwords"></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button id="login">LOGIN</button>
+              </td>
+            </tr>
+          </table>
+          <p>Kaka belum punya akun? <span class="perintah" id="perintahsign">Sign</span></p>
+        </div>
+        <div id="signdata" style="display: none;">
+          <h3>Sign</h3>
+          <table style="width: 90%;">
+            <tr>
+              <td>Nama</td>
+              <td><input type="text" id="nama" placeholder="Nama Lengkap"></td>
+            </tr>
+            <tr>
+              <td>IG</td>
+              <td><input type="text" id="ig" placeholder="Tanpa @"></td>
+            </tr>
+            <tr>
+              <td>Follower</td>
+              <td><input type="number" id="follower" placeholder="Tanpa titik (.)"></td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td><input type="text" id="username" placeholder="Username Login"></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td><input type="text" id="password" placeholder="Password Login"></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button id="sign">SIGN</button>
+              </td>
+            </tr>
+          </table>
+          <p>Kaka sudah punya akun? <span class="perintah" id="perintahlogin">Login</span></p>
+        </div>
+        <div id="editdata" style="display: none;">
+          <h3>Edit Data</h3>
+          <table style="width: 90%;">
+            <tr>
+              <td>Nama</td>
+              <td><input type="text" id="namaEdit"></td>
+            </tr>
+            <tr>
+              <td>IG</td>
+              <td><input type="text" id="igEdit"></td>
+            </tr>
+            <tr>
+              <td>Follower</td>
+              <td><input type="number" id="followerEdit"></td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td><input type="text" id="usernameEdit"></td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td><input type="text" id="passwordEdit"></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button id="editupdate">update</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <button id="tutup" style="background-color: red;">Tutup</button>
+      </div>        
+    </div>
+    
+    <script>
+      let loginboxpopup = document.getElementById("loginboxpopup");
+      let box = document.getElementById("box");
+      let logindata = document.getElementById("logindata");
+      let signdata = document.getElementById("signdata");
+      let perintahsign = document.getElementById("perintahsign");
+      let perintahlogin = document.getElementById("perintahlogin");
+      let tutup = document.getElementById("tutup");
+      let area = document.getElementById("area");
+      let btnTambah = document.getElementById("btnTambah");
+      let tambahData = document.getElementById("tambahData");
+      let upload = document.getElementById("upload");
+      let edit = document.getElementById("edit");
+      let editdata = document.getElementById("editdata");
+
+      loginboxpopup.addEventListener('click', function(){
+        area.style.display = "flex"
+        tambahData.style.display = "none"
+        logindata.style.display = "block"
+        editdata.style.display = "none"
+      })
+
+      btnTambah.addEventListener('click', function(){
+        area.style.display = "flex"
+        tambahData.style.display = "block"
+        logindata.style.display = "none"
+      })
+
+      perintahsign.addEventListener('click', function(){
+        logindata.style.display = "none"
+        signdata.style.display = "block"
+        editdata.style.display = "none"
+      })
+
+      perintahlogin.addEventListener('click', function(){
+        logindata.style.display = "block"
+        editdata.style.display = "none"
+        signdata.style.display = "none"
+      })
+
+      tutup.addEventListener('click', function(){
+        area.style.display = "none"
+      })
+
+      edit.addEventListener('click', function(){
+        console.log("tombol edit ditekan")
+        area.style.display = "flex"
+        editdata.style.display = "block"
+        logindata.style.display = "none"
+      })
+
+
+    </script>
+    
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
+      import { getDatabase, ref, set, push, get, child, onValue, update, remove } 
+        from "https://www.gstatic.com/firebasejs/9.8.2/firebase-database.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDRuMrr4QtY1Knyye8XgCOa6d0VNiYIk_o",
+        authDomain: "fkip-mengajar.firebaseapp.com",
+        databaseURL: "https://fkip-mengajar-default-rtdb.firebaseio.com",
+        projectId: "fkip-mengajar",
+        storageBucket: "fkip-mengajar.appspot.com",
+        messagingSenderId: "504353692892",
+        appId: "1:504353692892:web:e198570eb2f553b3bd6819"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase();
+
+
+      //Inisialisasi Inputan
+      let nama = document.getElementById("nama");
+      let ig = document.getElementById("ig");
+      let follower = document.getElementById("follower");
+      let username = document.getElementById("username");
+      let password = document.getElementById("password");
+
+      let post = document.getElementById("post");
+      let nopost = document.getElementById("nopost");
+      let datepost = document.getElementById("datepost");
+      
+
+      let login = document.getElementById("login");
+      let sign = document.getElementById("sign");
+
+
+
+      //Mengosongkan data
+      function kosongkandata(){
+        nama.value = ""
+        ig.value = ""
+        follower.value = ""
+        username.value = ""
+        password.value = ""
+      }
+
+              
+      //Ini menambahkan cheklist ke setiap user, setiap data baru ditambahkan
+      function checklistbaru(nomor) {
+        console.log("Penambah checklist jalan")
+        const userDBs = ref(database, "userDB");
+
+        onValue(userDBs, (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            let temp = childSnapshot.val();
+            let keyss = childSnapshot.key;
+            console.log(keyss);
+            const userDBss = ref(database, "userDB/"+keyss+"/status_"+nomor);
+             //userDBss.setValue(false)
+             let da = {
+              checked:false
+             }
+            update(userDBss, da)
+          });
+        });
+      }
+
+      //admin tambah data
+      upload.addEventListener('click', function(){
+        const jalur = ref(database, "post");
+        let data = {
+          nama:post.value,
+          nomor:nopost.value,
+          tanggal:datepost.value
+        }
+
+        checklistbaru(nopost.value)
+        console.log("Ini upload jalan")
+        getAllDataRealTime(nopost.value)
+
+        
+        area.style.display = "none"
+        logindata.style.display = "block"
+        push(jalur, data);
+        //Mengosongkan data
+        post.value = "";
+        nopost.value = "";
+        datepost.value = "";
+        alert("Tambah data Sukses")
+      })
+
+      function getdatachecklist(){
+        const dbrefs = ref(database, "userDB");
+        var user_lists = [];
+        onValue(dbrefs, (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            let temp = childSnapshot.val();
+            temp["key"] = childSnapshot.key;
+            user_lists.push(temp)
+          });console.log(user_lists[user_lists.length-1])
+        });
+
+
+
+        const userD = ref(database, "post");
+        onValue(userD, (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            let temp = childSnapshot.val();
+            console.log(temp['nomor']);
+            const jalurbaruchecklist = ref(database, "userDB/"+user_lists[user_lists.length-1]["key"]+"/status_"+temp['nomor']);
+             //userDBss.setValue(false)
+             let da = {
+              checked:false
+             }
+            update(jalurbaruchecklist, da)
+          });
+        });
+      }
+
+      //Fungsi tambah data pengguna baru (SIGN)
+      sign.addEventListener('click', function(){
+        const jalur = ref(database, "userDB");
+        let data = {
+          nama: nama.value,
+          ig: ig.value,
+          follower: follower.value,
+          username: username.value,
+          password: password.value,
+        }
+
+        
+        area.style.display = "none"
+        logindata.style.display = "block"
+        signdata.style.display = "none"
+        push(jalur, data);
+        no = 0;
+        //Menambah data checklist
+        getdatachecklist()
+
+        //Mengosongkan data
+        kosongkandata()
+        alert("Sign Sukses")
+        window.location.reload()
+      })
+
+
+
+      //menampilkan data saat mau edit
+      let keyPemilik = document.getElementById("key");
+      let namaEdit = document.getElementById("namaEdit");
+      let igEdit = document.getElementById("igEdit");
+      let followerEdit = document.getElementById("followerEdit");
+      let usernameEdit = document.getElementById("usernameEdit");
+      let passwordEdit = document.getElementById("passwordEdit");
+      edit.addEventListener("click", function(){
+        console.log(keyPemilik.innerHTML)
+        onValue(ref(database, 'userDB/'+keyPemilik.innerHTML), (snapshot) => {
+              const data = snapshot.val();
+              console.log(data)
+              console.log(data.nama)
+              namaEdit.value = data.nama;
+              igEdit.value = data.ig;
+              followerEdit.value = data.follower;
+              usernameEdit.value = data.password;
+              passwordEdit.value = data.username;
+          });
+      })
+
+      let editupdate = document.getElementById("editupdate");
+      editupdate.addEventListener('click', function(){
+        console.log("anda menekan update")
+        const jalur = ref(database, "userDB/"+keyPemilik.innerHTML);
+        let data = {
+          nama: namaEdit.value,
+          ig: igEdit.value,
+          follower: followerEdit.value,
+          username: usernameEdit.value,
+          password: passwordEdit.value,
+        }
+
+        
+        area.style.display = "none"
+        update(jalur, data);
+        alert("Update Data Sukses")
+      })
+
+
+
+
+
+
+
+
+
+
+
+        //Get data Realtime
+        
+        let tbody = document.getElementById("tbody");
+
+        var no = 0;
+        function addItemToTable(key, nama, ig, follower, check, kunciStatus) {
+
+ 
+          let pemilik = document.getElementById("key").innerHTML;
+          console.log(pemilik)
+          
+            let trow = document.createElement("tr");
+            trow.setAttribute ("id",key)
+
+            let table = `
+                    <td>${++no}</td>
+                    <td>${nama}</td>
+                    <td><a href="https://instagram.com/${ig}" target="_blank">${ig}</a></td>
+                    <td>${follower}</td>
+                    <td>
+                      <input id="${key}_check" class="checkbox" type="checkbox" disabled>
+                    </td>
+                `;
+                
+            let td = document.createElement("td");
+
+            trow.innerHTML = table;
+            tbody.appendChild(trow);
+
+            if(pemilik == "admin"){
+              document.getElementById(key+'_check').disabled = false;
+            }
+            else if(pemilik == key){
+              document.getElementById(key+'_check').disabled = false;
+            }
+
+            
+
+
+
+          //Penentu checkbox
+          let boxcheckbox = document.getElementById(key+"_check");
+          boxcheckbox.checked = check;
+
+          boxcheckbox.addEventListener('click', function(){
+            const check = ref(database, "userDB/"+key+"/"+kunciStatus);
+            let data = {
+                  checked: boxcheckbox.checked,
+            };
+            update(check, data);
+            document.getElementById(key+'_check').disabled = false;
+            document.getElementById(key).style.textDecoration = "underline";
+            document.getElementById(key).style.fontWeight = "bold";
+              })
+            }
+
+        let jumlahakun = document.getElementById("jumlahakun");
+        let jumlahfollower = document.getElementById("jumlahfollower");
+        let totalcheck = document.getElementById("totalcheck");
+
+        function AddAllItemToTable(data) {
+            tbody.innerHTML = "";
+            var totalchecks = 0;
+            data.forEach((element) => {
+              console.log(element.pilihan)
+              let kunciStatus = "status_"+element.pilihan;
+              console.log(kunciStatus)
+              let pilihan = element[kunciStatus].checked;
+              if(pilihan == true){
+                totalchecks += 1;
+              }
+              addItemToTable(element.key, element.nama, element.ig.toLowerCase(), element.follower, pilihan, kunciStatus);
+            });
+            totalcheck.innerHTML = totalchecks
+        }
+
+
+        function getAllDataRealTime(nomorpost,penentu) {
+          if(penentu == "baru"){
+            console.log("Baru buka")
+            const dbnew = ref(database, "post");
+        var pilihans = 0;
+        onValue(dbnew, (snapshot) => {
+          var urut = []
+          snapshot.forEach((childSnapshots) => {
+            let temps = childSnapshots.val();
+            temps["key"] = childSnapshots.key;
+            console.log(temps["nomor"])
+            //urut.push(temps);
+            let pilihans = temps["nomor"];
+            urut.push(pilihans)
+            
+          });
+          nomorpost = urut[urut.length-1];
+        });
+            
+          }
+         
+        const userDB = ref(database, "userDB");
+
+        onValue(userDB, (snapshot) => {
+          no = 0;
+          var total = 0;
+          var userData = [];
+          snapshot.forEach((childSnapshot) => {
+            let temp = childSnapshot.val();
+            console.log(temp["nama"])
+            total += parseInt(temp['follower']);
+            temp["key"] = childSnapshot.key;
+            temp["pilihan"] = nomorpost;
+            //console.log(temp["key"])
+            userData.push(temp);
+          });
+          console.log(userData)
+          AddAllItemToTable(userData);
+          jumlahakun.innerHTML = no;
+          jumlahfollower.innerHTML = total;
+        });
+      }
+      
+      
+      window.onload = getAllDataRealTime(0,"baru"),getAllDataRealTimeAdmin();
+
+      //Periksa user Login
+      function getDataUser(){
+        console.log("Ini jalan")
+        const dbRef = ref(database, "userDB");
+        var user_list = [];
+        onValue(dbRef, (snapshot) => {
+          // Dibawah ini perulangan yang akan memasukkan key ke struk
+          snapshot.forEach((childSnapshot) => {
+            let temp = childSnapshot.val();
+            //Ini bagian yang mengambil key
+            temp["key"] = childSnapshot.key;
+            user_list.push(temp)
+          });console.log(user_list)
+        });
+        return user_list
+    }
+
+
+      login.addEventListener('click', function(){
+        
+        let usernames = document.getElementById('usernames').value;
+        let passwords = document.getElementById('passwords').value;
+        let notif = document.getElementById('notif');
+        let kaka = document.getElementById('kaka');
+        let keyUser = document.getElementById('key');
+
+        let usernamess = document.getElementById('usernames');
+        let passwordss = document.getElementById('passwords');
+
+        //Untuk menghilangkan notif salah pass atau usernama
+        usernamess.addEventListener("click", function(){
+          document.getElementById("notifsalah").innerHTML = "~"
+        })
+        passwordss.addEventListener("click", function(){
+          document.getElementById("notifsalah").innerHTML = "~"
+        })
+
+        
+
+        //Ini untuk inisialisasi user authentication
+        let admin = document.getElementById("admin");
+
+        let userTable = document.getElementById("user");
+        let pilih = document.getElementById("pilih");
+        let list = document.getElementById("list");
+
+        //Login Admin
+        if(usernames == "fkipmengajar" && passwords == "mengabdigasanbanua"){
+          btnTambah.style.display = "block";
+          admin.style.display = "block";
+          list.style.display = "none";
+          kaka.innerHTML = "Admin";
+          notif.style.display = "block";
+          area.style.display = "none";
+          keyUser.innerHTML = "admin";
+          
+          usernamess.value = ""
+          passwordss.value = ""
+          alert("Login Admin Sukses")
+        }
+
+        else{
+          let user_list_data = getDataUser();
+        console.log(user_list_data)
+
+
+        var penentu = 0;
+          for(let i = 0; i < user_list_data.length; i++){
+
+              
+              let user = user_list_data[i]['username'];
+              let pass = user_list_data[i]['password'];
+
+
+              console.log(usernames)
+              console.log(passwords)
+
+              console.log(user)
+              console.log(pass)
+
+
+              if(usernames == user && passwords == pass){
+                //Membuka khusus user
+                btnTambah.style.display = "none";
+                admin.style.display = "none";
+
+                //===
+                alert("Login Sukses")
+                document.getElementById("edit").style.display = "block" //Menampilkan tombol edit
+                let keys = user_list_data[i]["key"];
+                keyUser.innerHTML = keys;
+                // console.log("Ini keynya",keys)
+                // document.getElementById(keys).style.textDecoration = "underline";
+                // document.getElementById(keys).style.fontWeight = "bold";
+                kaka.innerHTML = user_list_data[i]['nama'];
+                notif.style.display = "block";
+                area.style.display = "none";
+                let checkboxs = document.getElementsByClassName('checkbox');
+                console.log(checkboxs)
+                for(let i = 0; i < checkboxs.length; i++){
+                  var idCheckbox = checkboxs[i].id;
+                  if(keys+"_check" == idCheckbox){
+                    console.log("Check",checkboxs[i].id)
+                    document.getElementById(checkboxs[i].id).removeAttribute("disabled");
+                    
+                  }
+                }
+
+                //Log Login
+                const waktu = Date();
+                console.log(waktu)
+                let namaUser = user_list_data[i]['nama']
+                const log = ref(database, "log/"+namaUser+" ( "+waktu+" )");
+                var data = {
+                  ig:user_list_data[i]["ig"],
+                  follower:user_list_data[i]["follower"]
+                }
+                update(log, data);
+
+                //Tambah Log
+                usernamess.value = ""
+                passwordss.value = ""
+
+                break
+              }
+              else{
+                  penentu += 1;
+              }
+              if(penentu == user_list_data.length){
+                document.getElementById("notifsalah").innerHTML = "Wrong password or username"
+              }
+
+          }
+        }
+        
+
+  
+    })
+
+
+
+
+
+
+
+
+
+     //Untuk Admin
+     let dataAdmin = document.getElementById("dataAdmin");
+     let dataUserPilih = document.getElementById("dataUserPilih");
+
+var nom = 0;
+function addItemToTableAdmin(key, nama, nomor, tanggal) {
+  console.log("addItemToTableAdmin")
+
+
+  
+    let trows = document.createElement("tr");
+    let trowss = document.createElement("tr");
+    
+ 
+
+    let tables = `
+            <td>${++nom}</td>
+            <td>${nama}</td>
+            <td>${tanggal}</td>
+            <td><button id="${key}_button" style="background-Color: red">Hapus</button></td>
+        `;
+
+    let tableUser = `
+        <td>${nom}</td>
+        <td>${nama}</td>
+        <td><button id="${key}_pilih" style="background-Color: green">Pilih</button></td>
+    `;
+        
+    
+    trows.innerHTML = tables;
+    trows.setAttribute("id", key)
+    dataAdmin.appendChild(trows);
+    trowss.innerHTML = tableUser;
+    trowss.setAttribute("id", key+"_pilih")
+    dataUserPilih.appendChild(trowss);
+
+    function hapuspadauser(nomors){
+        console.log("Penghapus checklist jalan")
+        const userDBsss = ref(database, "userDB");
+
+        onValue(userDBsss, (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            let temp = childSnapshot.val();
+            let kunci = childSnapshot.key;
+            const userDBss = ref(database, "userDB/"+kunci+"/status_"+nomors);
+            console.log("Ini jalan")
+            remove(userDBss, "checked")
+          });
+        });
+      }
+    
+    let hapus = document.getElementById(key+"_button");
+    hapus.addEventListener("click", function(){
+      console.log("anda menekan hapus id:",key)
+      document.getElementById(key).remove()
+      document.getElementById(key+"_pilih").remove()
+      remove(ref(database, "post/" + key));
+
+      hapuspadauser(nomor);
+    })
+
+    let pilih = document.getElementById(key+"_pilih");
+    pilih.addEventListener("click", function(){
+      list.style.display = "block"
+      console.log("anda menekan pilih dengan key :", key+"_pilih")
+      const postingan = ref(database, "post/"+key);
+      onValue(postingan, (snapshot) => {
+            let temps = snapshot.val();
+            console.log(temps);
+            console.log(temps["nomor"]);
+            document.getElementById("judulpost").innerHTML = temps["nama"];
+            console.log("Nomor barang itu :",temps.nomor);
+            getAllDataRealTime(temps["nomor"])//Ini nomor post nya
+          ;
+        });
+    })
+    }
+
+
+            function AddAllItemToTableAdmin(data) {
+            nom = 0
+            dataAdmin.innerHTML = "";
+            dataUserPilih.innerHTML = "";
+            data.forEach((elements) => {
+              addItemToTableAdmin(elements.key, elements.nama, elements.nomor, elements.tanggal );
+            });
+        }
+
+
+
+     function getAllDataRealTimeAdmin() {
+        const userDBs = ref(database, "post");
+
+        onValue(userDBs, (snapshot) => {
+          var userDatas= [];
+          snapshot.forEach((childSnapshots) => {
+            let temps = childSnapshots.val();
+            temps["key"] = childSnapshots.key;
+            //console.log(temp["key"])
+            userDatas.push(temps);
+          });
+          AddAllItemToTableAdmin(userDatas);
+        });
+      }
+    </script>
+    <footer>
+      <p style="color: white;">&copyCopyright Medinfo 2022</p>
+    </footer>
+  </body>
+</html>
